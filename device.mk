@@ -22,8 +22,8 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     bootctrl.bengal
 
-PRODUCT_STATIC_BOOT_CONTROL_HAL := \
-    bootctrl.bengal \
+# Boot control HAL - using shared library instead of static
+PRODUCT_PACKAGES += \
     libgptutils \
     libz \
     libcutils
