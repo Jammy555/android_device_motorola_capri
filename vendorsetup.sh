@@ -4,11 +4,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-
-add_lunch_combo omni_capri-user
-add_lunch_combo omni_capri-userdebug
-add_lunch_combo omni_capri-eng
-#
 export FOX_VIRTUAL_AB_DEVICE=1
 export OF_AB_DEVICE_WITH_RECOVERY_PARTITION=1
 export OF_FL_PATH1="/tmp/flashlight"
