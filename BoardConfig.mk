@@ -10,6 +10,9 @@ DEVICE_PATH := device/motorola/capri
 # For building with minimal manifest
 ALLOW_MISSING_DEPENDENCIES := true
 
+# SDK
+BOARD_SYSTEMSDK_VERSIONS := 31
+
 # A/B
 AB_OTA_UPDATER := true
 AB_OTA_PARTITIONS += \
@@ -43,6 +46,9 @@ TARGET_NO_BOOTLOADER := true
 
 # Display
 TARGET_SCREEN_DENSITY := 280
+TARGET_SCREEN_HEIGHT := 720
+TARGET_SCREEN_WIDTH := 1600
+DEVICE_RESOLUTION := 1600x720
 
 # Kernel
 BOARD_BOOTIMG_HEADER_VERSION := 3
@@ -56,6 +62,9 @@ TARGET_FORCE_PREBUILT_KERNEL := true
 ifeq ($(TARGET_FORCE_PREBUILT_KERNEL),true)
 TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
 endif
+
+# Partition Info
+BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
 
 # Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := 100663296
@@ -77,6 +86,23 @@ TARGET_BOARD_PLATFORM := bengal
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery.fstab
+
+# Recovery Device Modules
+TARGET_RECOVERY_DEVICE_MODULES += \
+    android.hidl.allocator@1.0 \
+    android.hidl.memory@1.0 \
+    android.hidl.memory.token@1.0 \
+    libdmabufheap \
+    libhidlmemory \
+    libion \
+    libnetutils \
+    libxml2 \
+    vendor.display.config@1.0 \
+    vendor.display.config@2.0
+
+# Use mke2fs to create ext4 images
+TARGET_USES_MKE2FS := true
 
 # Security patch level
 VENDOR_SECURITY_PATCH := 2021-08-01
@@ -90,6 +116,16 @@ PLATFORM_SECURITY_PATCH := 2099-12-31
 VENDOR_SECURITY_PATCH := 2099-12-31
 PLATFORM_VERSION := 16.1.0
 
+# Rules
+BUILD_BROKEN_DUP_RULES := true
+BUILD_BROKEN_ELF_PREBUILT_PRODUCT_COPY_FILES := true
+BUILD_BROKEN_NINJA_USES_ENV_VARS += RTIC_MPGEN
+BUILD_BROKEN_NINJA_USES_ENV_VARS += SDCLANG_AE_CONFIG SDCLANG_CONFIG SDCLANG_SA_ENABLE
+BUILD_BROKEN_USES_BUILD_HOST_SHARED_LIBRARY := true
+BUILD_BROKEN_USES_BUILD_HOST_STATIC_LIBRARY := true
+BUILD_BROKEN_USES_BUILD_HOST_EXECUTABLE := true
+BUILD_BROKEN_USES_BUILD_COPY_HEADERS := true
+
 # TWRP Configuration
 TW_THEME := portrait_hdpi
 TW_EXTRA_LANGUAGES := true
@@ -97,3 +133,45 @@ TW_SCREEN_BLANK_ON_BOOT := true
 TW_INPUT_BLACKLIST := "hbtp_vm"
 TW_USE_TOOLBOX := true
 TW_INCLUDE_REPACKTOOLS := true
+
+# TWRP specific build flags
+TARGET_RECOVERY_QCOM_RTC_FIX := true
+TW_BACKUP_EXCLUSIONS := /data/fonts/files
+TW_CUSTOM_CPU_TEMP_PATH := "/sys/devices/virtual/thermal/thermal_zone34/temp"
+TW_BRIGHTNESS_PATH := "/sys/class/backlight/panel0-backlight/brightness"
+TW_DEFAULT_BRIGHTNESS := 547
+TW_MAX_BRIGHTNESS := 2047
+TW_QCOM_ATS_OFFSET := 1666528204500
+TW_EXCLUDE_APEX := true
+TW_EXCLUDE_DEFAULT_USB_INIT := true
+TW_FRAMERATE := 60
+TW_INCLUDE_CRYPTO := true
+TW_NO_EXFAT_FUSE := true
+TW_INCLUDE_RESETPROP := true
+TW_USE_SERIALNO_PROPERTY_FOR_DEVICE_ID := true
+TW_OVERRIDE_SYSTEM_PROPS := \
+    "ro.build.date.utc;ro.bootimage.build.date.utc=ro.build.date.utc;ro.odm.build.date.utc=ro.build.date.utc;ro.product.build.date.utc=ro.build.date.utc;ro.system.build.date.utc=ro.build.date.utc;ro.system_ext.build.date.utc=ro.build.date.utc;ro.vendor.build.date.utc=ro.build.date.utc"
+
+# Recovery Library Source Files
+RECOVERY_LIBRARY_SOURCE_FILES += \
+    $(TARGET_OUT_SHARED_LIBRARIES)/android.hidl.allocator@1.0.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/android.hidl.memory@1.0.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/android.hidl.memory.token@1.0.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libdmabufheap.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libhidlmemory.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libion.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libnetutils.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libxml2.so \
+    $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/vendor.display.config@1.0.so \
+    $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/vendor.display.config@2.0.so
+
+# TWRP Debug Flags
+TARGET_USES_LOGD := true
+TWRP_INCLUDE_LOGCAT := true
+TARGET_RECOVERY_DEVICE_MODULES += debuggerd
+RECOVERY_BINARY_SOURCE_FILES += $(TARGET_OUT_EXECUTABLES)/debuggerd
+TARGET_RECOVERY_DEVICE_MODULES += strace
+RECOVERY_BINARY_SOURCE_FILES += $(TARGET_OUT_EXECUTABLES)/strace
+
+# Extras
+TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
