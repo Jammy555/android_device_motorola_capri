@@ -88,6 +88,9 @@ TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery.fstab
 
+# Ensure recovery image is generated with correct name
+TARGET_RECOVERY_IMAGE_NAME := recovery.img
+
 # Recovery Device Modules
 TARGET_RECOVERY_DEVICE_MODULES += \
     android.hidl.allocator@1.0 \
