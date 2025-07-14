@@ -4,9 +4,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
-add_lunch_combo twrp_capri-user
-add_lunch_combo twrp_capri-userdebug
-add_lunch_combo twrp_capri-eng
+
+# Lunch combos are now defined in AndroidProducts.mk
+# add_lunch_combo calls are obsolete
 
 export FOX_VIRTUAL_AB_DEVICE=1
 export OF_AB_DEVICE_WITH_RECOVERY_PARTITION=1
