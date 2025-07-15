@@ -141,8 +141,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(DEVICE_PATH)/recovery/root/system/bin,$(TARGET_COPY_OUT_SYSTEM)/bin)
 
+# Only copy non-vintf files from system/etc
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(DEVICE_PATH)/recovery/root/system/etc,$(TARGET_COPY_OUT_SYSTEM)/etc)
+# Remove manifest.xml or any VINTF XMLs from the above if present (handled by PRODUCT_VINTF_FRAGMENTS)
 
 # VINTF fragments for system
 PRODUCT_VINTF_FRAGMENTS += \
