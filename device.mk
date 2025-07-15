@@ -141,14 +141,15 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(DEVICE_PATH)/recovery/root/system/bin,$(TARGET_COPY_OUT_SYSTEM)/bin)
 
-# Only copy non-vintf files from system/etc
+# Copy non-vintf files from system/etc (excluding vintf directory)
 PRODUCT_COPY_FILES += \
-    $(call find-copy-subdir-files,*,$(DEVICE_PATH)/recovery/root/system/etc,$(TARGET_COPY_OUT_SYSTEM)/etc)
-# Remove manifest.xml or any VINTF XMLs from the above if present (handled by PRODUCT_VINTF_FRAGMENTS)
+    $(DEVICE_PATH)/recovery/root/system/etc/ramdisk-files.txt:$(TARGET_COPY_OUT_SYSTEM)/etc/ramdisk-files.txt \
+    $(DEVICE_PATH)/recovery/root/system/etc/twrp.flags:$(TARGET_COPY_OUT_SYSTEM)/etc/twrp.flags \
+    $(DEVICE_PATH)/recovery/root/system/etc/task_profiles.json:$(TARGET_COPY_OUT_SYSTEM)/etc/task_profiles.json \
+    $(DEVICE_PATH)/recovery/root/system/etc/fstab.postinstall:$(TARGET_COPY_OUT_SYSTEM)/etc/fstab.postinstall \
+    $(DEVICE_PATH)/recovery/root/system/etc/event-log-tags:$(TARGET_COPY_OUT_SYSTEM)/etc/event-log-tags
 
-# Ensure ramdisk-files.txt is included in recovery
-PRODUCT_COPY_FILES += \
-    $(DEVICE_PATH)/recovery/root/system/etc/ramdisk-files.txt:$(TARGET_COPY_OUT_SYSTEM)/etc/ramdisk-files.txt
+# ramdisk-files.txt is already included in the system/etc copy above
 
 # VINTF fragments for system
 PRODUCT_VINTF_FRAGMENTS += \
