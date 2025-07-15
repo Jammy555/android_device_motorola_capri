@@ -3,7 +3,7 @@
 # Based on AOSP documentation: https://source.android.com/docs/core/architecture/vintf/objects
 
 # VINTF manifest files that should be preserved
-/etc/vintf/manifest.xml
+# /etc/vintf/manifest.xml (removed - file was deleted)
 
 # System configuration files
 /etc/task_profiles.json

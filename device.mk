@@ -151,14 +151,14 @@ PRODUCT_COPY_FILES += \
 
 # ramdisk-files.txt is already included in the system/etc copy above
 
-# VINTF fragments for system
-PRODUCT_VINTF_FRAGMENTS += \
-    $(DEVICE_PATH)/recovery/root/system/etc/vintf/manifest.xml
+# VINTF fragments for system (removed since manifest.xml was deleted)
+# PRODUCT_VINTF_FRAGMENTS += \
+#     $(DEVICE_PATH)/recovery/root/system/etc/vintf/manifest.xml
 
 # Recovery init files
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/recovery/root/android.hardware.boot-service.qti.recovery.rc:$(TARGET_COPY_OUT_RECOVERY)/root/android.hardware.boot-service.qti.recovery.rc \
-    $(DEVICE_PATH)/recovery/root/init.qcom.recovery.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.qcom.recovery.rc \
+    $(DEVICE_PATH)/recovery/root/init.recovery.qcom.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.qcom.rc \
     $(DEVICE_PATH)/recovery/root/init.recovery.usb.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.usb.rc \
     $(DEVICE_PATH)/recovery/root/servicemanager.recovery.rc:$(TARGET_COPY_OUT_RECOVERY)/root/servicemanager.recovery.rc
 

@@ -116,7 +116,7 @@ TARGET_RECOVERY_DEVICE_MODULES += \
 # Recovery init files
 TARGET_RECOVERY_DEVICE_MODULES += \
     $(DEVICE_PATH)/recovery/root/android.hardware.boot-service.qti.recovery.rc \
-    $(DEVICE_PATH)/recovery/root/init.qcom.recovery.rc \
+    $(DEVICE_PATH)/recovery/root/init.recovery.qcom.rc \
     $(DEVICE_PATH)/recovery/root/init.recovery.usb.rc \
     $(DEVICE_PATH)/recovery/root/servicemanager.recovery.rc
 
