@@ -144,6 +144,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(DEVICE_PATH)/recovery/root/system/etc,$(TARGET_COPY_OUT_SYSTEM)/etc)
 
+# VINTF fragments for system
+PRODUCT_VINTF_FRAGMENTS += \
+    $(DEVICE_PATH)/recovery/root/system/etc/vintf/manifest.xml
+
 # Recovery init files
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/recovery/root/android.hardware.boot-service.qti.recovery.rc:$(TARGET_COPY_OUT_RECOVERY)/root/android.hardware.boot-service.qti.recovery.rc \
