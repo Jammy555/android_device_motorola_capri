@@ -1,0 +1,22 @@
+# Ramdisk files list for Motorola Capri TWRP
+# This file lists files that should be preserved during recovery boot
+# Based on AOSP documentation: https://source.android.com/docs/core/architecture/vintf/objects
+
+# VINTF manifest files that should be preserved
+/etc/vintf/manifest.xml
+
+# System configuration files
+/etc/task_profiles.json
+/etc/event-log-tags
+/etc/fstab.postinstall
+
+# TWRP specific files
+/etc/twrp.flags
+
+# Vendor configuration files that should be preserved
+/vendor/etc/thermal-engine.conf
+/vendor/etc/thermal-engine-capri-5000.conf
+/vendor/etc/thermal-engine-capri-6000.conf
+/vendor/etc/libnfc-nci.conf
+/vendor/etc/libnfc-nxp.conf
+/vendor/etc/vhw.xml 
