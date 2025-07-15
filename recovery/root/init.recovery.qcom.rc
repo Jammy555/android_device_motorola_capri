@@ -65,6 +65,7 @@ on property:ro.twrp.fastbootd=1
 on boot #Haptics
     write /sys/class/leds/vibrator/trigger "transient"
     start vendor.qti.vibrator
+    exec u:r:recovery:s0 -- /system/bin/fix-invalid-vintf-manifest.sh
 
 on property:twrp.modules.loaded=true #Flashlight
     mkdir /tmp/flashlight 
