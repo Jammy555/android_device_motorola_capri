@@ -1,0 +1,33 @@
+# mount point   fstype  device                                          device2             flags
+# Logical partitions
+/system         ext4    system                                                              flags=display=System;logical;slotselect
+/system_ext     ext4    system_ext                                                          flags=display=System_EXT;logical;slotselect
+/product        ext4    product                                                             flags=display=Product;logical;slotselect
+/vendor         ext4    vendor                                                              flags=display=Vendor;logical;slotselect
+
+# Userdata/Metadata partitions
+/data           f2fs    /dev/block/bootdevice/by-name/userdata                              flags=display=Data
+/metadata       emmc    /dev/block/by-name/metadata                                         flags=display=Metadata
+
+# Other partitions
+/boot           emmc    /dev/block/bootdevice/by-name/boot                                  flags=slotselect;display="Boot";backup=1;flashimg=1
+/recovery       emmc    /dev/block/bootdevice/by-name/recovery                              flags=slotselect;display="Recovery";backup=1;flashimg=1
+
+# AVB partitions
+/dtbo           emmc    /dev/block/bootdevice/by-name/dtbo                                  flags=slotselect;display="DTBO";backup=1;flashimg=1
+/vbmeta         emmc    /dev/block/bootdevice/by-name/vbmeta                                flags=slotselect;display="VBMeta";backup=1;flashimg=1
+
+# Firmware & Modem partitions
+/firmware_mnt   ext4    /dev/block/bootdevice/by-name/modem                                 flags=slotselect;display="Firmware";mounttodecrypt
+/dsp            ext4    /dev/block/bootdevice/by-name/dsp                                   flags=slotselect;display="DSP"
+/bt_firmware    ext4    /dev/block/bootdevice/by-name/bluetooth                             flags=slotselect;display="Bluetooth"
+/fsg            ext4    /dev/block/bootdevice/by-name/fsg                                   flags=slotselect;display="FSG"
+/persist        ext4    /dev/block/bootdevice/by-name/persist                               flags=display="Persist"
+/prodpersist    ext4    /dev/block/bootdevice/by-name/prodpersist                           flags=display="Product Persist"
+
+# USB OTG
+/storage/usbotg vfat    /devices/platform/soc/*.ssusb/*.dwc3/xhci-hcd.*.auto*             flags=display=USB_OTG
+
+# Misc
+/misc           emmc    /dev/block/bootdevice/by-name/misc                                  flags=display=Misc
+none            swap    /dev/block/zram0                                                    flags=display=ZRAM

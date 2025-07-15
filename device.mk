@@ -79,7 +79,7 @@ PRODUCT_TARGET_VNDK_VERSION := 31
 $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota.mk)
 
 # A/B updater updatable partitions list for Capri
-AB_OTA_PARTITIONS ?= boot system system_ext vendor product
+AB_OTA_PARTITIONS ?= system system_ext vendor product
 
 # f2fs utilities
 PRODUCT_PACKAGES += \
@@ -126,3 +126,31 @@ PRODUCT_PROPERTY_OVERRIDES += persist.sys.fuse.passthrough.enable=true
 #system avb
 BOARD_AVB_ENABLE := true
 BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 3
+
+# Vendor Dependencies from recovery/root/vendor
+PRODUCT_COPY_FILES += \
+    $(call find-copy-subdir-files,*,$(DEVICE_PATH)/recovery/root/vendor/etc,$(TARGET_COPY_OUT_VENDOR)/etc)
+
+PRODUCT_COPY_FILES += \
+    $(call find-copy-subdir-files,*,$(DEVICE_PATH)/recovery/root/vendor/lib64,$(TARGET_COPY_OUT_VENDOR)/lib64)
+
+PRODUCT_COPY_FILES += \
+    $(call find-copy-subdir-files,*,$(DEVICE_PATH)/recovery/root/vendor/firmware,$(TARGET_COPY_OUT_VENDOR)/firmware)
+
+# System Dependencies from recovery/root/system
+PRODUCT_COPY_FILES += \
+    $(call find-copy-subdir-files,*,$(DEVICE_PATH)/recovery/root/system/bin,$(TARGET_COPY_OUT_SYSTEM)/bin)
+
+PRODUCT_COPY_FILES += \
+    $(call find-copy-subdir-files,*,$(DEVICE_PATH)/recovery/root/system/etc,$(TARGET_COPY_OUT_SYSTEM)/etc)
+
+# Recovery init files
+PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/recovery/root/android.hardware.boot-service.qti.recovery.rc:$(TARGET_COPY_OUT_RECOVERY)/root/android.hardware.boot-service.qti.recovery.rc \
+    $(DEVICE_PATH)/recovery/root/init.qcom.recovery.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.qcom.recovery.rc \
+    $(DEVICE_PATH)/recovery/root/init.recovery.usb.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.usb.rc \
+    $(DEVICE_PATH)/recovery/root/servicemanager.recovery.rc:$(TARGET_COPY_OUT_RECOVERY)/root/servicemanager.recovery.rc
+
+# Recovery wipe configuration
+PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/recovery.wipe:$(TARGET_COPY_OUT_RECOVERY)/root/etc/recovery.wipe

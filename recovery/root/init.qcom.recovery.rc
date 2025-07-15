@@ -25,6 +25,9 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
+on early-init
+    write /proc/sys/kernel/firmware_config/force_sysfs_fallback 1
+
 on init
     write /sys/class/backlight/panel0-backlight/brightness 200
     setprop sys.usb.configfs 1
@@ -36,3 +39,34 @@ on property:ro.boot.usbcontroller=*
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
+
+    # Load ADSP firmware for PMIC
+    mkdir /firmware
+    mount vfat /dev/block/bootdevice/by-name/modem${ro.boot.slot_suffix} /firmware ro
+
+on post-fs
+    start boot-hal-1-2
+
+on property:twrp.modules.loaded=true && property:dev.mnt.blk.firmware=*
+    # Load ADSP firmware for PMIC
+    wait /sys/kernel/boot_adsp/boot
+    write /sys/kernel/boot_adsp/boot 1
+    wait /sys/class/power_supply/battery
+    start health-hal-2-1
+
+on property:ro.twrp.fastbootd=1
+    # Load ADSP firmware for PMIC
+    wait /sys/kernel/boot_adsp/boot
+    write /sys/kernel/boot_adsp/boot 1
+    wait /sys/class/power_supply/battery
+    start health-hal-2-1
+    umount /firmware
+
+on boot #Haptics
+    write /sys/class/leds/vibrator/trigger "transient"
+    start vendor.qti.vibrator
+
+on property:twrp.modules.loaded=true #Flashlight
+    mkdir /tmp/flashlight 
+    write /tmp/flashlight/max_brightness "1"
+    symlink /sys/devices/virtual/camera/factory_test_flash/rear_flash /tmp/flashlight/brightness

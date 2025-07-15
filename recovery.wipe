@@ -1,0 +1,73 @@
+# Recovery wipe configuration for Motorola Capri
+# This file defines what partitions should be wiped during factory reset
+
+# System partitions to wipe
+/system
+/system_ext
+/product
+/vendor
+
+# Data partition
+/data
+
+# Cache partition (if exists)
+/cache
+
+# Dalvik cache
+/data/dalvik-cache
+
+# ART cache
+/data/art-cache
+
+# User data
+/data/data
+/data/app
+/data/app-private
+/data/app-asec
+/data/app-lib
+/data/app-ephemeral
+/data/app-staging
+/data/backup
+/data/system
+/data/system/users
+/data/system_de
+/data/misc_de
+/data/vendor_de
+/data/user_de
+/data/profiles
+/data/app-optimized
+/data/app-staging
+/data/app-webview
+/data/app-split
+/data/app-code-cache
+/data/app-data
+/data/app-lib
+/data/app-lib64
+/data/app-oat
+/data/app-vdex
+/data/app-art
+/data/app-apk
+/data/app-dex
+/data/app-resources
+/data/app-manifest
+/data/app-signatures
+/data/app-metadata
+/data/app-permissions
+/data/app-preferences
+/data/app-shared_prefs
+/data/app-databases
+/data/app-files
+/data/app-cache
+/data/app-tmp
+/data/app-logs
+/data/app-crash
+/data/app-anr
+/data/app-tombstones
+/data/app-dropbox
+/data/app-system_server
+/data/app-zygote
+/data/app-zygote64
+/data/app-zygote32
+/data/app-zygote_secondary
+/data/app-zygote_secondary64
+/data/app-zygote_secondary32 

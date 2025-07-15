@@ -74,10 +74,10 @@ BOARD_SYSTEMIMAGE_PARTITION_TYPE := ext4
 BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 TARGET_COPY_OUT_VENDOR := vendor
-BOARD_SUPER_PARTITION_SIZE := 9126805504 # TODO: Fix hardcoded value
+BOARD_SUPER_PARTITION_SIZE := 9126805504
 BOARD_SUPER_PARTITION_GROUPS := motorola_dynamic_partitions
 BOARD_MOTOROLA_DYNAMIC_PARTITIONS_PARTITION_LIST := system system_ext product vendor
-BOARD_MOTOROLA_DYNAMIC_PARTITIONS_SIZE := 9122611200 # TODO: Fix hardcoded value
+BOARD_MOTOROLA_DYNAMIC_PARTITIONS_SIZE := 9122611200
 
 # Platform
 TARGET_BOARD_PLATFORM := bengal
@@ -104,6 +104,13 @@ TARGET_RECOVERY_DEVICE_MODULES += \
     vendor.display.config@1.0 \
     vendor.display.config@2.0
 
+# Recovery init files
+TARGET_RECOVERY_DEVICE_MODULES += \
+    $(DEVICE_PATH)/recovery/root/android.hardware.boot-service.qti.recovery.rc \
+    $(DEVICE_PATH)/recovery/root/init.qcom.recovery.rc \
+    $(DEVICE_PATH)/recovery/root/init.recovery.usb.rc \
+    $(DEVICE_PATH)/recovery/root/servicemanager.recovery.rc
+
 # Use mke2fs to create ext4 images
 TARGET_USES_MKE2FS := true
 
@@ -129,7 +136,7 @@ BUILD_BROKEN_USES_BUILD_HOST_STATIC_LIBRARY := true
 BUILD_BROKEN_USES_BUILD_HOST_EXECUTABLE := true
 BUILD_BROKEN_USES_BUILD_COPY_HEADERS := true
 
-# TWRP Configuration
+# TWRP Configuration - Based on official TWRP best practices
 TW_THEME := portrait_hdpi
 TW_EXTRA_LANGUAGES := true
 TW_SCREEN_BLANK_ON_BOOT := true
@@ -155,6 +162,14 @@ TW_USE_SERIALNO_PROPERTY_FOR_DEVICE_ID := true
 TW_OVERRIDE_SYSTEM_PROPS := \
     "ro.build.date.utc;ro.bootimage.build.date.utc=ro.build.date.utc;ro.odm.build.date.utc=ro.build.date.utc;ro.product.build.date.utc=ro.build.date.utc;ro.system.build.date.utc=ro.build.date.utc;ro.system_ext.build.date.utc=ro.build.date.utc;ro.vendor.build.date.utc=ro.build.date.utc"
 
+# Additional TWRP flags based on official examples
+TW_NO_REBOOT_BOOTLOADER := true
+TW_HAS_DOWNLOAD_MODE := true
+TW_INCLUDE_NTFS_3G := true
+TW_EXCLUDE_SUPERSU := true
+TW_USE_NEW_MINADBD := true
+LZMA_RAMDISK_TARGETS := recovery
+
 # Recovery Library Source Files
 RECOVERY_LIBRARY_SOURCE_FILES += \
     $(TARGET_OUT_SHARED_LIBRARIES)/android.hidl.allocator@1.0.so \
@@ -165,8 +180,8 @@ RECOVERY_LIBRARY_SOURCE_FILES += \
     $(TARGET_OUT_SHARED_LIBRARIES)/libion.so \
     $(TARGET_OUT_SHARED_LIBRARIES)/libnetutils.so \
     $(TARGET_OUT_SHARED_LIBRARIES)/libxml2.so \
-    $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/vendor.display.config@1.0.so \
-    $(TARGET_OUT_SYSTEM_EXT_SHARED_LIBRARIES)/vendor.display.config@2.0.so
+    $(TARGET_OUT_VENDOR_SHARED_LIBRARIES)/vendor.display.config@1.0.so \
+    $(TARGET_OUT_VENDOR_SHARED_LIBRARIES)/vendor.display.config@2.0.so
 
 # TWRP Debug Flags
 TARGET_USES_LOGD := true
@@ -177,4 +192,26 @@ TARGET_RECOVERY_DEVICE_MODULES += strace
 RECOVERY_BINARY_SOURCE_FILES += $(TARGET_OUT_EXECUTABLES)/strace
 
 # Extras
-TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
+# TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
+
+# Recovery Vendor Dependencies
+RECOVERY_VENDOR_PATH := $(DEVICE_PATH)/recovery/root/vendor
+TARGET_RECOVERY_VENDOR_MODULES := \
+    $(RECOVERY_VENDOR_PATH)/bin \
+    $(RECOVERY_VENDOR_PATH)/lib64 \
+    $(RECOVERY_VENDOR_PATH)/firmware \
+    $(RECOVERY_VENDOR_PATH)/etc
+
+# Recovery System Dependencies
+RECOVERY_SYSTEM_PATH := $(DEVICE_PATH)/recovery/root/system
+TARGET_RECOVERY_SYSTEM_MODULES := \
+    $(RECOVERY_SYSTEM_PATH)/bin \
+    $(RECOVERY_SYSTEM_PATH)/etc
+
+# Ensure vendor and system dependencies are included in recovery
+# TARGET_RECOVERY_DEVICE_MODULES += \
+#     $(RECOVERY_VENDOR_PATH)/etc/* \
+#     $(RECOVERY_VENDOR_PATH)/lib64/* \
+#     $(RECOVERY_VENDOR_PATH)/firmware/* \
+#     $(RECOVERY_SYSTEM_PATH)/bin/* \
+#     $(RECOVERY_SYSTEM_PATH)/etc/*
