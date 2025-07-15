@@ -164,3 +164,14 @@ PRODUCT_COPY_FILES += \
 # Recovery wipe configuration
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/recovery.wipe:$(TARGET_COPY_OUT_RECOVERY)/root/etc/recovery.wipe
+
+# Kernel modules for prebuilt kernel
+PRODUCT_PACKAGES += \
+    libion \
+    libnetutils \
+    libxml2
+
+# Kernel-specific configurations
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.kernel.android.checkjni=0 \
+    ro.kernel.checkjni=0
