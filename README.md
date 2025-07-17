@@ -8,6 +8,7 @@
 - **Platform**: Qualcomm Snapdragon 460 (bengal)
 - **Architecture**: ARM64
 - **Android Version**: 12.1 (API 31)
+- **Recovery**: TWRP (Team Win Recovery Project)
 
 ## Device Specifications
 

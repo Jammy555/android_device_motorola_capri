@@ -1,4 +1,4 @@
-# Copyright (c) 2017-2018,2020 The Linux Foundation. All rights reserved.
+# Copyright (c) 2009-2012, 2014-2018, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -25,49 +25,31 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-on early-init
-    write /proc/sys/kernel/firmware_config/force_sysfs_fallback 1
+import /init.recovery.qcom_decrypt.rc
 
 on init
-    write /sys/class/backlight/panel0-backlight/brightness 200
-    setprop sys.usb.configfs 1
-
-on property:ro.boot.usbcontroller=*
-    setprop sys.usb.controller ${ro.boot.usbcontroller}
-    write /sys/class/udc/${ro.boot.usbcontroller}/device/../mode peripheral
+    start touch
 
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
-
-    # Load ADSP firmware for PMIC
-    mkdir /firmware
     mount vfat /dev/block/bootdevice/by-name/modem${ro.boot.slot_suffix} /firmware ro
 
 on post-fs
-    start boot-hal-1-2
+    start boot-hal-1-1
 
-on property:twrp.modules.loaded=true && property:dev.mnt.blk.firmware=*
-    # Load ADSP firmware for PMIC
-    wait /sys/kernel/boot_adsp/boot
-    write /sys/kernel/boot_adsp/boot 1
-    wait /sys/class/power_supply/battery
+on late-fs
+    start keymasterd
     start health-hal-2-1
 
-on property:ro.twrp.fastbootd=1
-    # Load ADSP firmware for PMIC
-    wait /sys/kernel/boot_adsp/boot
-    write /sys/kernel/boot_adsp/boot 1
-    wait /sys/class/power_supply/battery
-    start health-hal-2-1
-    umount /firmware
+service keymasterd /system/bin/keymasterd
+     user root
+     group root
+     disabled
+     seclabel u:r:recovery:s0
 
-on boot #Haptics
-    write /sys/class/leds/vibrator/trigger "transient"
-    start vendor.qti.vibrator
-    exec u:r:recovery:s0 -- /system/bin/fix-invalid-vintf-manifest.sh
-
-on property:twrp.modules.loaded=true #Flashlight
-    mkdir /tmp/flashlight 
-    write /tmp/flashlight/max_brightness "1"
-    symlink /sys/devices/virtual/camera/factory_test_flash/rear_flash /tmp/flashlight/brightness
+service health-hal-2-1 /system/bin/android.hardware.health@2.1-service
+    user root
+    group root
+    disabled
+    seclabel u:r:recovery:s0
