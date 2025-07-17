@@ -41,40 +41,6 @@
 
 ## Installation
 
-### Via Fastboot
-
-```bash
-# Boot into fastboot mode
-adb reboot bootloader
-
-# Flash recovery
-fastboot flash recovery twrp-3.7.0_12-0-capri.img
-
-# Boot to recovery
-fastboot boot twrp-3.7.0_12-0-capri.img
-```
-
-### Via ADB
-
-```bash
-# Push recovery to device
-adb push twrp-3.7.0_12-0-capri.img /sdcard/
-
-# Flash via existing recovery
-# Navigate to Install > Select Image > Choose twrp-3.7.0_12-0-capri.img > Flash to Recovery
-```
-
-## Known Issues
-
-- None currently reported
-
-## Changelog
-
-### v3.7.0_12-0
-- Initial TWRP 3.7.0 release
-- Full A/B partition support
-- FBE/FDE decryption support
-- MTP and ADB support
 - Multi-language support
 
 ## Credits
