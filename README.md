@@ -45,9 +45,6 @@
 
 ## Credits
 
-- **TWRP Team**: For the amazing recovery
-- **Motorola**: For device specifications
-- **Community**: For testing and feedback
 
 ## License
 
