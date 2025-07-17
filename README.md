@@ -39,33 +39,6 @@
 2. Clone TWRP source code
 3. Install required dependencies
 
-### Building
-
-```bash
-# Clone the device tree
-git clone https://github.com/your-username/android_device_motorola_capri.git device/motorola/capri
-
-# Clone dependencies
-git clone https://github.com/motorola/capri-kernel.git kernel/motorola/capri
-git clone https://github.com/motorola/capri-vendor.git vendor/motorola/capri
-git clone https://github.com/motorola/capri-common.git device/motorola/capri-common
-git clone https://github.com/motorola/capri-hardware.git hardware/motorola/capri
-
-# Build TWRP
-source build/envsetup.sh
-lunch twrp_capri-eng
-mka recoveryimage
-```
-
-### Dependencies
-
-The device tree requires the following dependencies:
-
-- **Kernel**: motorola/capri-kernel (android-12.1 branch)
-- **Vendor**: motorola/capri-vendor (android-12.1 branch)
-- **Device Common**: motorola/capri-common (android-12.1 branch)
-- **Hardware**: motorola/capri-hardware (android-12.1 branch)
-
 ## Installation
 
 ### Via Fastboot
