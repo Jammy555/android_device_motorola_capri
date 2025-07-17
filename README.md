@@ -5,7 +5,7 @@
 - **Device Name**: Motorola Moto G(10)
 - **Device Codename**: capri
 - **Manufacturer**: Motorola
-- **Platform**: Qualcomm Snapdragon 460 (bengal)
+- **Platform**: Qualcomm Snapdragon 460 (kamorta)
 - **Architecture**: ARM64
 - **Android Version**: 12.1 (API 31)
 - **Recovery**: TWRP (Team Win Recovery Project)
